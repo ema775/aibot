@@ -1,0 +1,41 @@
+# [Top-level Settings]
+# File patterns to include in linting.
+include = ["*.py"]
+
+# File patterns to exclude from linting and formatting.
+exclude = [".venv"]
+
+# The number of spaces per indentation level.
+indent-width = 4
+
+# The maximum line length for linting and formatting (e.g., E501).
+line-length = 99
+
+# Treat specified directories and their subdirectories as namespace packages,
+# even if they don't contain __init__.py.
+namespace-packages = ["src/aibot/model/", "src/aibot/sqlite/"]
+
+[format]
+# Enable formatting of code blocks in docstrings.
+docstring-code-format = true
+
+# Maximum line length for code blocks in docstrings.
+docstring-code-line-length = 72
+
+[lint]
+# Enable all linting rules.
+select = ["ALL"]
+
+# Disable specific linting rules with justifications.
+ignore = [
+    "ANN204", # Skip return type checks for special methods like __init__.
+    "D100",   # Allow missing docstrings in public modules.
+    "D101",   # Allow missing docstrings in public classes.
+    "D102",   # Allow missing docstrings in public methods.
+    "D104",   # Allow missing docstrings in public packages.
+    "D107",   # Allow missing docstrings in __init__ methods.
+    "F403",   # Allow wildcard imports for flexibility in certain contexts.
+]
+
+# Specify objects to treat as equivalent to logging.Logger.
+logger-objects = ["logging_setup"]
