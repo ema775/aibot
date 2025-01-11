@@ -29,14 +29,14 @@ class UserDAO(SQLiteDAOBase):
         finally:
             await conn.close()
 
-    async def insert_advanced_user(self, user: UserDTO) -> None:
+    async def insert_dev_user(self, user: UserDTO) -> None:
         conn = await aiosqlite.connect(super().DB_NAME)
         date = datetime.datetime.now(TIMEZONE).date()
         try:
             await conn.execute(
                 """
                 INSERT INTO AccessList (user_id, access_type, date)
-                VALUES (?, 'advanced', ?);
+                VALUES (?, 'developer', ?);
                 """,
                 (user.user_id, date),
             )
@@ -59,7 +59,7 @@ class UserDAO(SQLiteDAOBase):
         finally:
             await conn.close()
 
-    async def remove_advanced_user(self, user: UserDTO) -> None:
+    async def remove_dev_user(self, user: UserDTO) -> None:
         conn = await aiosqlite.connect(self.DB_NAME)
         date = datetime.datetime.now(TIMEZONE).date()
         try:
@@ -67,7 +67,7 @@ class UserDAO(SQLiteDAOBase):
                 """
                 UPDATE AccessList
                 SET rm_date=?
-                WHERE user_id=? AND access_type='advanced' AND rm_date IS NULL;
+                WHERE user_id=? AND access_type='developer' AND rm_date IS NULL;
                 """,
                 (date, user.user_id),
             )
@@ -91,13 +91,13 @@ class UserDAO(SQLiteDAOBase):
         finally:
             await conn.close()
 
-    async def get_advanced_user_ids(self) -> list[int]:
+    async def get_dev_user_ids(self) -> list[int]:
         conn = await aiosqlite.connect(super().DB_NAME)
         try:
             cursor = await conn.execute(
                 """
                 SELECT user_id FROM AccessList
-                WHERE access_type='advanced' AND rm_date IS NULL;
+                WHERE access_type='developer' AND rm_date IS NULL;
                 """,
             )
             rows = await cursor.fetchall()
