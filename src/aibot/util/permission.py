@@ -13,7 +13,7 @@ load_dotenv()
 ADMIN_USER_IDS: tuple[int, ...] = tuple(
     map(int, os.getenv("ADMIN_USER_IDS", "").split(",")),
 )
-ALLOWED_SERVER_IDS: tuple[int, ...] = tuple(
+AUTHORIZED_SERVER_IDS: tuple[int, ...] = tuple(
     map(int, os.getenv("ALLOWED_SERVER_IDS", "").split(",")),
 )
 
@@ -30,7 +30,7 @@ def is_authorized_server() -> Callable[[T], T]:
     """
 
     def predicate(interaction: Interaction) -> bool:
-        return interaction.guild_id in ALLOWED_SERVER_IDS
+        return interaction.guild_id in AUTHORIZED_SERVER_IDS
 
     return app_commands.check(predicate)
 
