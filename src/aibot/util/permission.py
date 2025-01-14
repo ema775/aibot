@@ -52,20 +52,20 @@ def is_admin_user() -> Callable[[T], T]:
     return app_commands.check(predicate)
 
 
-def is_dev_user() -> Callable[[T], T]:
-    """Check if the user has developer access permission.
+def is_advanced_user() -> Callable[[T], T]:
+    """Check if the user has advanced access permission.
 
     Returns
     -------
     Callable[[T], T]
         A decorator checks whether the user executing the command is
-        listed in the developer access list.
+        listed in the advanced user list.
 
     """
 
     async def predicate(interaction: Interaction) -> bool:
-        dev_user_ids = await userdao.get_dev_user_ids()
-        return interaction.user.id in dev_user_ids
+        advanced_user_ids = await userdao.get_advanced_user_ids()
+        return interaction.user.id in advanced_user_ids
 
     return app_commands.check(predicate)
 
